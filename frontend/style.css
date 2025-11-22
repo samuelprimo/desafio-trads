@@ -1,0 +1,34 @@
+body { 
+    font-family: 'Segoe UI', sans-serif; 
+    background-color: #f8f9fa;
+}
+
+.card-plano {
+    transition: all 0.2s ease-in-out;
+    border: 1px solid #e9ecef;
+}
+
+.card-plano:hover {
+    border-color: #ced4da;
+    transform: translateY(-1px);
+}
+
+.recomendado-border {
+    border-left: 4px solid #198754;
+    background-color: #ffffff;
+}
+
+.tag-idade {
+    background-color: #e9ecef;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    color: #495057;
+    border: 1px solid #dee2e6;
+}
+
+.tag-idade span:hover { 
+    color: #dc3545; 
+}

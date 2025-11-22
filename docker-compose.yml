@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  #banco de dados
+  postgres:
+    image: postgres:15-alpine
+    container_name: desafio_postgres
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=operadoras_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - operadoras_network
+
+  #carga de dados, vulgo (ETL)
+  init_db:
+    image: python:3.11-slim
+    container_name: desafio_init_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    working_dir: /app
+    environment:
+      - POSTGRES_HOST=postgres
+    command: >
+      sh -c "pip install pandas sqlalchemy psycopg2-binary && python scripts/init_db.py"
+    networks:
+      - operadoras_network
+
+  #backend (API)
+  backend:
+    build: ./backend
+    container_name: desafio_backend
+    ports:
+      - "5000:5000"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=operadoras_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+      init_db:
+        condition: service_completed_successfully
+    networks:
+      - operadoras_network
+
+  #frontend (site)
+  frontend:
+    build: ./frontend
+    container_name: desafio_frontend
+    ports:
+      - "80:80"  #acessível via http://localhost
+    depends_on:
+      - backend  #só vai subir se a api estiver rodando
+    networks:
+      - operadoras_network
+
+networks:
+  operadoras_network:
+    driver: bridge
+
+volumes:
+  postgres_data:

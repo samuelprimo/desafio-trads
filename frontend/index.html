@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotação de Planos de Saúde</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="mb-5 border-bottom pb-3">
+            <h2 class="fw-bold text-dark">Cotação de Planos</h2>
+            <p class="text-secondary mb-0">Sistema de busca e recomendação</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white fw-bold py-3">
+                        Parâmetros da Busca
+                    </div>
+                    <div class="card-body">
+                        <form id="cotacaoForm">
+                            <div class="mb-3">
+                                <label class="form-label">Quantidade de Vidas</label>
+                                <input type="number" id="vidas" class="form-control" min="1" value="1" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <select id="estado" class="form-select">
+                                    <option value="">Todos os Estados</option>
+                                    <option value="SÃO PAULO">São Paulo</option>
+                                    <option value="RIO DE JANEIRO">Rio de Janeiro</option>
+                                    <option value="MINAS GERAIS">Minas Gerais</option>
+                                    <option value="BAHIA">Bahia</option>
+                                    <option value="PARANÁ">Paraná</option>
+                                    <option value="DISTRITO FEDERAL">Distrito Federal</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Faixas Etárias</label>
+                                <div id="lista-idades" class="d-flex flex-wrap gap-2 mb-2"></div>
+                                <div class="input-group">
+                                    <select id="nova-idade" class="form-select">
+                                        <option value="0-18">0 a 18 anos</option>
+                                        <option value="19-23">19 a 23 anos</option>
+                                        <option value="24-28">24 a 28 anos</option>
+                                        <option value="29-33">29 a 33 anos</option>
+                                        <option value="34-38">34 a 38 anos</option>
+                                        <option value="39-43">39 a 43 anos</option>
+                                        <option value="44-48">44 a 48 anos</option>
+                                        <option value="49-53">49 a 53 anos</option>
+                                        <option value="54-58">54 a 58 anos</option>
+                                        <option value="59+">59 anos ou mais</option>
+                                    </select>
+                                    <button type="button" class="btn btn-primary" onclick="adicionarIdade()">Adicionar</button>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success w-100 mt-3">Processar Cotação</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div id="loading" class="text-center d-none py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="mt-2 text-secondary small">Processando dados...</p>
+                </div>
+
+                <div id="resultados-area" class="d-none">
+                    <h5 class="mb-3 text-dark">Recomendação do Sistema</h5>
+                    <div id="lista-recomendados" class="mb-4"></div>
+
+                    <h5 class="mb-3 text-dark border-top pt-3">Lista Geral</h5>
+                    <div id="lista-geral"></div>
+                </div>
+                
+                <div id="empty-state" class="text-center py-5 text-secondary bg-white rounded shadow-sm border">
+                    <p class="mb-0">Utilize o formulário ao lado para iniciar uma cotação.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
