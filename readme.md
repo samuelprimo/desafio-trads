@@ -27,5 +27,5 @@ Sistema Full Stack containerizado para cotação de planos de saúde com pipelin
 
 1. Clone o repositório:
    ```bash
-   git clone <https://github.com/samuelprimo/>
+   git clone https://github.com/samuelprimo/desafio-trads.git
    cd desafio-trads
